@@ -1,0 +1,3 @@
+#!/usr/bin/env python3
+# Deploy repository into system
+# utilizes .translate-list to help... translate
