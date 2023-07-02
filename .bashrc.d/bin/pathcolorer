@@ -1,0 +1,39 @@
+#!/bin/bash
+# Intented to be used in a bash PS1 env variable.
+# However, it can be used independently
+
+## Colors
+# Both are bold
+COLOR_BLUE="\e[1;34m"
+COLOR_LBLUE="\e[1;36m"
+
+# Edge case where if current directory is HOME, print ~ then exit
+if [ "$PWD" = "$HOME" ]; then
+  printf "$COLOR_BLUE~"
+  exit 0
+fi
+
+colored_path=()
+CPWD="$PWD"
+while [ "$CPWD" != "/" ]; do
+  DNAME="$(printf "%s" "$CPWD" | rev | cut -d'/' -f1 | rev)"
+  if [ -L "$CPWD" ]; then
+    colored_path+=("$COLOR_LBLUE$DNAME$COLOR_BLUE")
+  else
+    colored_path+=("$DNAME")
+  fi
+  NPWD="$(dirname "$CPWD")"
+  CPWD="$NPWD"
+done
+
+color_path="$COLOR_BLUE"
+i="${#colored_path[@]}"
+while [[ "$i" -ge 0 ]]; do
+  color_path=""$color_path""${colored_path[$i]}"/"
+  i=$(("$i" - 1))
+done
+#TODO: Refine to where if $PWD has $HOME once but not at the beginning, i.e /home/user instead of /backup/home/user
+#+ It will transform the first one instead of the second one, probably factor in when building the string
+printf "$color_path" | sed "s|${HOME}|~|"
+
+exit 0

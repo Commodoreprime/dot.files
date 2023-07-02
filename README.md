@@ -1,6 +1,24 @@
 # dot.files
 dotfiles.... mmmm
 
-## files
+## What is this
+This is my repository to ~~store~~ share with the world! My configuration files for config purposes.
 
-`DEPLOY` - Copy repository into system, making changes when necessary according to `.translate-list.json`
+## Notable files and what they do
+
+#### `bashrc`
+This implements a custom bashrc bootstrap script that loads files procedually from a `.bashrc.d` directory.
+
+It also implements some other things which should be obvious when looking at the file.
+
+#### `.bash_profile`
+Effectivly the same as `.bashrc` but also reads `.bash_profile.d` directory before reading `.bashrc`.
+
+#### `.bashrc.d`
+Main star of the show here. This is a directory that is read as a series of shell scripts to configure
+the users shell dynamically and with the ability to turn on/off certain features, its the modern age baby!
+
+The directory has a [README](.bashrc.d/README.md) that helps explain specifics.
+
+## Installation and requirements
+Run `make install` to install files relative to the users home directory.
