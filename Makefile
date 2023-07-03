@@ -1,4 +1,7 @@
-# Install n' stuff
+COPYCMD := cp -iu
+
+# Installs via hard links so changes are synchronized
 install:
-	cp .bashrc $(HOME)/.bashrc
-	cp -r .bashrc.d $(HOME)/.bashrc.d
+	$(COPYCMD) .bashrc $(HOME)/
+	$(COPYCMD) -r .bashrc.d $(HOME)/
+	$(COPYCMD) -r .bash_profile.d $(HOME)/
