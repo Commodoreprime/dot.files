@@ -18,8 +18,8 @@ then it will iterate over the rest of the scripts.
 
 ## Interfaces
 This hooking system exposes multiple variables during script execution:
-| Variable | Explanation |
-|:--------:|-------------|
-|`COMMAND_ARGS`    | Arguments given from the command-line, equivilent to `$@` after `shift 1`. Exposed in both pre and post hooks
-|`COMMAND_PROGRAM` | The command name given from the command-line, equivilent to bash `$1`. Exposed in both pre and post hooks
-|`EXIT_CODE`       | The exit code given by the program once it finished executing. Only exposed in the post hook
+| Variable         | Explanation                                                                | Availability |
+|:--------:        | -----------                                                                | :----------- |
+|`COMMAND_ARGS`    | Arguments given from the command-line, equivilent to `$@` after `shift 1`. | `pre`, `post`
+|`COMMAND_PROGRAM` | The command name given from the command-line, equivilent to bash `$1`.     | `pre`, `post`
+|`EXIT_CODE`       | The exit code given by the program once it finished executing.             | `post`

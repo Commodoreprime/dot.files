@@ -1,4 +1,4 @@
-COPYCMD := cp -iu
+COPYCMD := cp -vu
 
 install:
 	$(COPYCMD) .bashrc $(HOME)/
