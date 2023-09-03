@@ -20,14 +20,14 @@ check_git() {
   # test if $1 == true for color support, for some reason does not work any other way?
   if [ "$1" = true ]; then
     printf ' ('
-    [ $GIT_AWARE_IS_DETACHED = 1 ] && printf '\e[1;33m{'
-    printf "\e[0;32m"$current_branch""
-    [ $GIT_AWARE_IS_DETACHED = 1 ] && printf '\e[1;33m}'
-    printf '\e[0m)'
+    [ $GIT_AWARE_IS_DETACHED = 1 ] && printf "%s{" "$(color yellow bold)"
+    printf "%s%s" "$(color green)" "$current_branch"
+    [ $GIT_AWARE_IS_DETACHED = 1 ] && printf "%s}" "$(color yellow bold)"
+    printf "%s)" "$(color reset)"
   else
     printf ' ('
     [ $GIT_AWARE_IS_DETACHED = 1 ] && printf '{'
-    printf "$current_branch"
+    printf "%s" "$current_branch"
     [ $GIT_AWARE_IS_DETACHED = 1 ] && printf '}'
   fi 
 }
@@ -35,13 +35,13 @@ check_git() {
 # Used to check if in a proton enviroment
 test_proton_wine() {
   [ -z "$PROTON_PATH" ] && return
-  ct_name="$(printf "$PROTON_PATH" | awk -F'/' '{print $NF}')"
+  ct_name="$(printf "%s" "$PROTON_PATH" | awk -F'/' '{print $NF}')"
   if [ "$1" = true ]; then
-    printf '(\e[0;33m'
-    printf "$ct_name"
-    printf '\e[0m)'
+    printf "(%s" "$(color yellow)"
+    printf "%s" "$ct_name"
+    printf "%s)" "$(color reset)"
   else
-    printf "($ct_name)"
+    printf "(%s)" "$ct_name"
   fi
 }
 
@@ -50,7 +50,7 @@ pathcolorer() {
   case "$PWD" in
     # If path is strictly only $HOME, only print ~ in blue
     "$HOME")
-      printf ""$COLOR_BLUE_BOLD"~"
+      printf "%s~" "$(color blue bold)"
     ;;
     # If any other path, do this
     *)
@@ -59,25 +59,25 @@ pathcolorer() {
       while [ "$CPWD" != "/" ]; do
         DNAME="$(rev <<<"$CPWD" | cut -d'/' -f1 | rev)"
         if [ -L "$CPWD" ]; then
-          colored_path+=("$COLOR_LIGHT_BLUE_BOLD$DNAME$COLOR_BLUE_BOLD")
+          colored_path+=("$(color lightblue bold)$DNAME$(color blue bold)")
         else
           colored_path+=("$DNAME")
         fi
         CPWD="$(dirname "$CPWD")"
       done
-      color_path="$COLOR_BLUE_BOLD"
+      color_path="$(color blue bold)"
       i="${#colored_path[@]}"
       while [[ "$i" -ge 0 ]]; do
-        color_path=""$color_path""${colored_path[$i]}"/"
+        color_path="$color_path${colored_path[$i]}/"
         i=$(("$i" - 1))
       done
-      printf "$color_path" | sed "s|${HOME}|~|"
+      printf "%s" "$color_path" | sed "s|${HOME}|~|"
     ;;
   esac
 }
 
 if [ "$use_color" = true ]; then
-  export PS1='\[\e[1;32m\]\u@\H\[\e[00m\]\[$(check_git true)\]\[$(test_proton_wine true)\]:\[$(pathcolorer)\]\[\e[00m\]\n\[\e[00m\] └\$ '
+  export PS1='\[$(color green bold)\]\u@\H\[$(color reset)\]\[$(check_git true)\]\[$(test_proton_wine true)\]:\[$(pathcolorer)\]\[$(color reset)\]\n └\$ '
 else
   export PS1='\u@\H$(check_git)$(test_proton_wine):\w\n └\$ '
 fi
