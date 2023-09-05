@@ -6,7 +6,8 @@ export GIT_AWARE_IS_DETACHED=0
 # Determin git branch with flavoring
 check_git() {
   [ -x /usr/bin/git ] || return
-  local current_branch="$(git branch --no-color 2>/dev/null | grep '*' | cut -c 3-)"
+  local current_branch=""
+  current_branch="$(git branch --no-color 2>/dev/null | grep '\*' | cut -c 3-)"
   [ -z "$current_branch" ] && return
   GIT_AWARE_IS_IN_REPO=1
   case "$current_branch" in
@@ -76,8 +77,13 @@ pathcolorer() {
   esac
 }
 
+is_flatpak() {
+  [ -z "$FLATPAK_ID" ] && return
+  printf "YES:"
+}
+
 if [ "$use_color" = true ]; then
-  export PS1='\[$(color green bold)\]\u@\H\[$(color reset)\]\[$(check_git true)\]\[$(test_proton_wine true)\]:\[$(pathcolorer)\]\[$(color reset)\]\n └\$ '
+  export PS1='\[$(is_flatpak true)\]\[$(color green bold)\]\u@\H\[$(color reset)\]\[$(check_git true)\]\[$(test_proton_wine true)\]:\[$(pathcolorer)\]\[$(color reset)\]\n └\$ '
 else
-  export PS1='\u@\H$(check_git)$(test_proton_wine):\w\n └\$ '
+  export PS1='$(is_flatpak)\u@\H$(check_git)$(test_proton_wine):\w\n └\$ '
 fi
