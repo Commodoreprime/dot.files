@@ -20,5 +20,11 @@ the users shell dynamically and with the ability to turn on/off certain features
 
 The directory has a [README](.bashrc.d/README.md) that helps explain specifics.
 
+#### `scripts/`
+A variety of shell, python, powershell or other scripting like script files for automation type work / shortcuts.
+
+Contains a [README](scripts/README.md) for details on certain script files.
+The files themselves in addition should have at least light documentation at the top of the file.
+
 ## Installation and requirements
 Run `make install` to install files relative to the users home directory.
