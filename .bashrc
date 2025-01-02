@@ -7,6 +7,8 @@
 #  utilizing seperate shell scripts that can be loaded individually
 #
 
+# shellcheck source=/dev/null
+
 # Untrap DEBUG signal so it does not get in the way
 trap - DEBUG
 
@@ -27,32 +29,43 @@ esac
 # Determins if terminal has color support, overrides use_color if it does not
 if [ "$use_color" = true ] ; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >& /dev/null ; then
-        use_color=true
+        export use_color=true
     else
-        use_color=false
+        export use_color=false
     fi
 fi
 
-# User specific environment
-if ! [[ "$PATH" =~ $HOME/.local/bin:$HOME/bin: ]]
-then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+# Check if in a WSL2 environment
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+    export USING_WSL2=true
+else
+    export USING_WSL2=false
 fi
-export PATH
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-[ "$DEBUG" = true ] && set -x
+# [ "$DEBUG" = true ] && set -x
+
+print_log() {
+    [ "$DEBUG" = true ] && printf "([%s] %s)\n" "${__DEBUG_ORIGIN_FILE}" "$*"
+}
+
+# shellcheck disable=2088
+__DEBUG_ORIGIN_FILE='~/.bashrc'
 
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
     for rc in ~/.bashrc.d/*; do
         case "$rc" in
-            *.sh) . "$rc" ;;
+            *.sh)
+            __DEBUG_ORIGIN_FILE="$(basename "${rc}")"
+            . "$rc" ;;
         esac
     done
 fi
 
 unset rc
 unset use_color
+unset USING_WSL2
+unset __DEBUG_ORIGIN_FILE

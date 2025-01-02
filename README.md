@@ -7,7 +7,7 @@ This is my repository to ~~store~~ share with the world! My configuration files 
 ## Notable files and what they do
 
 #### `bashrc`
-This implements a custom bashrc bootstrap script that loads files procedually from a `.bashrc.d` directory.
+This implements a custom bashrc bootstrap script that loads files sequentially from a `.bashrc.d` directory.
 
 It also implements some other things which should be obvious when looking at the file.
 

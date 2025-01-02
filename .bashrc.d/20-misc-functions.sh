@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2164
 # Functions that don't need dedicated files
 
 # Prints keycodes with xev in a readable format
@@ -15,9 +16,7 @@ mkcd() {
       mkdir --help
       cd --help
       return 0 ;;
-    *)
-      mkdir "$1"
-      cd "$1" ;;
+    *) mkdir "$1" && cd "$1" ;;
   esac
 }
 

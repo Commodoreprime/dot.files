@@ -2,7 +2,7 @@
 # Generic aliases that are not dependent on a particular DE
 
 # Enable color for various utilities if enabled
-if [ "$use_color" = true ]; then
+if [ "${use_color}" = true ]; then
   alias ls='ls --color=auto'
   alias grep='grep --color=auto'
   alias fgrep='fgrep --color=auto'
@@ -21,6 +21,10 @@ alias l='ls -CFN'              # prints standard ls output with characters appen
 alias la='ls -AN'              # prints with standard ls output but includes hidden .files but not '.' '..'
 alias ll='ls -alFihN'          # prints directories/files with additional info in list form using human readable sizes
 alias nv='nvim'                # shorthand for neovim command
+
+# Show verbosity but only when there are changes
+alias chmod='chmod -c'
+alias chown='chown -c'
 
 alias tree='tree -lCF'  # prints tree in a format visually similar to ls --color=auto -F
 alias treel='tree -ah'  # same as tree but prints hidden directories and print file sizes
@@ -42,10 +46,12 @@ alias copy='xclip -sel clip'
 alias paste='xclip -sel clip -o'
 
 # flatpak VSCodium IDE
-alias codium='flatpak run --file-forwarding --command=/app/bin/codium com.vscodium.codium --new-window'
-alias vscode='codium'
+# alias codium='flatpak run --file-forwarding --command=/app/bin/codium com.vscodium.codium --new-window'
+# alias code='vscode'
 
-alias protontricks='flatpak run com.github.Matoking.protontricks'
+alias yt-dlp='yt-dlp --audio-format mp3 --convert-thumbnails png'
+
+# alias protontricks='flatpak run com.github.Matoking.protontricks'
 
 #alias gb='/usr/bin/git branch 2>/dev/null || echo "Not in a git repository"'
 

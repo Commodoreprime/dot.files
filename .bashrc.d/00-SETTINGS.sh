@@ -16,7 +16,7 @@ HISTFILESIZE=2000
 export DEBUG=false
 
 # Set terminal editor
-EDITOR=/usr/bin/nvim
+export EDITOR=/usr/bin/nvim
 
 # append to the history file, don't overwrite it
 shopt -s histappend
