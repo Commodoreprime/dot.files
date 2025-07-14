@@ -3,7 +3,7 @@
 # Order is presented in reverse, so if one is called 01 and the other is called 00,
 #  01 is added first, then 00, resulting in PATH=/path/to/00:/path/to/01:... .
 
-PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin"
+[ -z "${PATH}" ] && return 0
 
 if [ -d ~/.bashrc.d/paths ]; then
     for _path in $(find ~/.bashrc.d/paths/ -type l | sort -r); do
@@ -16,4 +16,3 @@ if [ -d ~/.bashrc.d/paths ]; then
 fi
 
 print_log  "PATH is now \"${PATH}\""
-export PATH
