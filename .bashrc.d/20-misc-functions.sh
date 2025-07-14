@@ -28,3 +28,33 @@ sha1check(){
 md5check(){
   [ "$(md5sum "$1" | cut -d' ' -f1)" = "$2" ] && echo "md5sums match!" || echo "md5sums DON'T match! ($1 != $2)"
 }
+
+if [ "${USING_WSL2}" = "true" ]; then
+
+mount-windisk() {
+  if [ -z "$1" ]; then
+    echo "Please provide a drive letter"
+    set -- "--help"
+  fi
+  case "$1" in
+    "--help"|"-h")
+      echo "Usage: mount-windisk <drive letter>"
+      return 0 ;;
+  esac
+  if [ ! -d "/mnt/$1" ]; then
+    sudo mkdir "/mnt/$1"
+    created=true
+  fi
+  sudo mount -t drvfs "$1": /mnt/"$1" -o uid="$(id -u "${USER}")",gid="$(id -g "${USER}")",metadata
+  if [ $$ -ne 0 ]; then
+    printf "Mounting failed"
+    if [ "${created}" = true ]; then
+      sudo rmdir "/mnt/$1"
+      printf ", removed directory"
+      unset created
+    fi
+  fi
+  printf "\n"
+}
+
+fi
