@@ -31,23 +31,18 @@ alias treel='tree -ah'  # same as tree but prints hidden directories and print f
 
 alias extip='curl icanhazip.com' # grabs External ip address
 alias llports='netstat -tulanp'  # print tcp and udp port table
-alias ..='cd ..'                 # shorthand for going up a directory
 alias lns='ln -sn'               # executes ln with symbolic and no defference switches on
 alias ping='ping -c 6 '          # define number of pings for address, can be overrwritten using new -c flag
 alias shred='shred -vzun 7 '     # shreds a given file or files with useful flags, removes the file in the end
 
+alias ..='cd ..'               # shorthand for going up a directory
+alias cdtmp='cd "$(mktemp -d)"' # CD to a temporary directory  
+
 alias virshsy='virsh -c qemu:///system' # run virsh within the system hypervisor context
 
-# WSL2 environment
-if [ "${USING_WSL2}" = "true" ]; then
-  # Vscode aliases
-  alias vscode="/mnt/c/Users/commodore/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
-  alias code="vscode"
-
-  # sshfs fix for explorer navigation compatability
-  alias sshfs="sshfs -o allow_other,default_permissions"
-  alias ratarmount="ratarmount -o allow_other"
-fi
+# sshfs fix for explorer navigation compatability
+alias sshfs="sshfs -o allow_other,default_permissions"
+alias ratarmount="ratarmount -o allow_other"
 
 # Hehehe
 alias docker='podman'
@@ -57,12 +52,20 @@ alias copy='xclip -sel clip'
 alias paste='xclip -sel clip -o'
 
 # flatpak VSCodium IDE
-# alias codium='flatpak run --file-forwarding --command=/app/bin/codium com.vscodium.codium --new-window'
+#alias codium='flatpak run --file-forwarding --command=/app/bin/codium com.vscodium.codium --new-window'
 # alias code='vscode'
+
+# when in a WSL2 environment
+if [ "${USING_WSL2}" = "true" ]; then
+  # Vscode and VSCodium aliases
+  alias code='/mnt/c/Users/commodore/AppData/Local/Programs/VSCodium/VSCodium.exe'
+  alias vscode="/mnt/c/Users/commodore/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
+  alias code="vscode"
+
+fi
 
 alias yt-dlp='yt-dlp --audio-format mp3 --convert-thumbnails png'
 
 # alias protontricks='flatpak run com.github.Matoking.protontricks'
 
 #alias gb='/usr/bin/git branch 2>/dev/null || echo "Not in a git repository"'
-
