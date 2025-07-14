@@ -31,6 +31,19 @@ md5check(){
 
 if [ "${USING_WSL2}" = "true" ]; then
 
+# WSL path conversion (C:\...\... --> /mnt/c/.../...)
+wcd() {
+  case "$1" in
+    "--help"|"-h")
+      wslpath --help
+      cd --help
+      return 0 ;;
+    *)
+      cd "$(wslpath -u "$1")"
+      return 0 ;;
+  esac
+}
+
 mount-windisk() {
   if [ -z "$1" ]; then
     echo "Please provide a drive letter"
