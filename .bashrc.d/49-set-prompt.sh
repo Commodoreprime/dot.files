@@ -79,7 +79,11 @@ pathcolorer() {
 
 is_flatpak() {
   [ -z "$FLATPAK_ID" ] && return
-  printf "YES:"
+  if [ "$1" = true ]; then
+    printf "%s[%sFLATPAK%s]" "$(color white bold)" "$(color yellow)" "$(color white bold)"
+  else
+    printf "[FLATPAK]"
+  fi
 }
 
 if [ "$use_color" = true ]; then
