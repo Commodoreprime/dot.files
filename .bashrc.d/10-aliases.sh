@@ -38,6 +38,17 @@ alias shred='shred -vzun 7 '     # shreds a given file or files with useful flag
 
 alias virshsy='virsh -c qemu:///system' # run virsh within the system hypervisor context
 
+# WSL2 environment
+if [ "${USING_WSL2}" = "true" ]; then
+  # Vscode aliases
+  alias vscode="/mnt/c/Users/commodore/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
+  alias code="vscode"
+
+  # sshfs fix for explorer navigation compatability
+  alias sshfs="sshfs -o allow_other,default_permissions"
+  alias ratarmount="ratarmount -o allow_other"
+fi
+
 # Hehehe
 alias docker='podman'
 
